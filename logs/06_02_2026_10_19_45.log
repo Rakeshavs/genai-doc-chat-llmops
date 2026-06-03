@@ -1,0 +1,9 @@
+{"timestamp": "2026-06-02T04:49:45.533539Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
+{"timestamp": "2026-06-02T04:49:45.534722Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T04:49:45.535709Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T04:49:45.536437Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T04:49:45.537301Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T04:49:45.538453Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-02T04:49:45.547164Z", "level": "info", "event": "YAML config loaded"}
+{"session_id": "session_20260602_101945_05ea5a0b", "temp_dir": "data\\session_20260602_101945_05ea5a0b", "faiss_dir": "faiss_index\\session_20260602_101945_05ea5a0b", "sessionized": true, "timestamp": "2026-06-02T04:49:45.552219Z", "level": "info", "event": "ChatIngestor initialized"}
+{"uploaded": "C:\\Users\\medha\\Downloads\\end to end RAG sy\\data\\Attention Is All You Need - 2017 (1706.03762).pdf", "saved_as": "data\\session_20260602_101945_05ea5a0b\\14f1fbff.pdf", "timestamp": "2026-06-02T04:49:45.560967Z", "level": "info", "event": "File saved for ingestion"}

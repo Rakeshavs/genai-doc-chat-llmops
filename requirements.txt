@@ -1,0 +1,37 @@
+python-dotenv==1.1.1
+structlog
+PyYAML==6.0.3
+
+langchain==0.3.27
+langchain-community==0.3.27
+langchain-core==0.3.72
+
+langchain-groq==0.3.6
+langchain-google-genai==2.1.8
+langchain-openai==0.2.10
+
+# For OpenRouter API (DeepSeek)
+openai>=1.0.0
+
+# For embeddings and vectorization
+sentence-transformers
+transformers
+faiss-cpu
+tiktoken
+
+# Document processing
+docx2txt==0.9
+pypdf==6.12.2
+ipykernel==6.30.0
+python-multipart==0.0.20
+
+fastapi==0.115.6
+uvicorn==0.32.1
+Jinja2==3.1.4
+
+langsmith
+pandas
+requests
+openai
+langchain-huggingface>=0.0.6
+langsmith==0.8.7

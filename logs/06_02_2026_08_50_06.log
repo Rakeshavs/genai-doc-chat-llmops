@@ -1,0 +1,20 @@
+{"timestamp": "2026-06-02T03:20:06.934291Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
+{"timestamp": "2026-06-02T03:20:06.935274Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T03:20:06.935903Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T03:20:06.936431Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-02T03:20:06.964850Z", "level": "info", "event": "YAML config loaded"}
+{"session_id": "session_20260602_085006_29cf5ea8", "temp_dir": "data\\session_20260602_085006_29cf5ea8", "faiss_dir": "faiss_index\\session_20260602_085006_29cf5ea8", "sessionized": true, "timestamp": "2026-06-02T03:20:06.969228Z", "level": "info", "event": "ChatIngestor initialized"}
+{"uploaded": "C:\\Users\\medha\\Downloads\\end to end RAG sy\\data\\Attention Is All You Need - 2017 (1706.03762).pdf", "saved_as": "data\\session_20260602_085006_29cf5ea8\\6f18f5f5.pdf", "timestamp": "2026-06-02T03:20:06.975802Z", "level": "info", "event": "File saved for ingestion"}
+{"chunks": 251, "chunk_size": 200, "overlap": 20, "timestamp": "2026-06-02T03:20:13.636671Z", "level": "info", "event": "Documents split"}
+{"provider": "openai", "model": "text-embedding-3-large", "timestamp": "2026-06-02T03:20:13.637981Z", "level": "info", "event": "Loading embeddings"}
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 429 Too Many Requests"
+Retrying request to /embeddings in 0.471130 seconds
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 429 Too Many Requests"
+Retrying request to /embeddings in 0.891643 seconds
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 429 Too Many Requests"
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 429 Too Many Requests"
+Retrying request to /embeddings in 0.487998 seconds
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 429 Too Many Requests"
+Retrying request to /embeddings in 0.927853 seconds
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 429 Too Many Requests"
+{"error": "Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}", "timestamp": "2026-06-02T03:20:34.825799Z", "level": "error", "event": "Failed to build retriever"}

@@ -1,0 +1,11 @@
+{"timestamp": "2026-06-03T15:13:07.165594Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
+{"timestamp": "2026-06-03T15:13:07.166225Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
+{"timestamp": "2026-06-03T15:13:07.166656Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
+{"timestamp": "2026-06-03T15:13:07.166940Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
+{"timestamp": "2026-06-03T15:13:07.167110Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
+{"timestamp": "2026-06-03T15:13:07.167616Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-03T15:13:07.190146Z", "level": "info", "event": "YAML config loaded"}
+{"provider": "openrouter", "model": "deepseek/deepseek-chat", "timestamp": "2026-06-03T15:13:07.190521Z", "level": "info", "event": "Loading LLM"}
+{"session_id": "s1", "timestamp": "2026-06-03T15:13:11.393384Z", "level": "info", "event": "LLM loaded successfully"}
+{"session_id": "s1", "timestamp": "2026-06-03T15:13:11.393915Z", "level": "info", "event": "ConversationalRAG initialized"}
+{"error": "Error in [<unknown>] at line [-1] | Message: RAG chain not initialized. Call load_retriever_from_faiss() before invoke().", "timestamp": "2026-06-03T15:13:11.394413Z", "level": "error", "event": "Failed to invoke ConversationalRAG"}

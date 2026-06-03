@@ -1,0 +1,8 @@
+{"timestamp": "2026-06-02T03:57:55.485750Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
+{"timestamp": "2026-06-02T03:57:55.486477Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T03:57:55.486921Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T03:57:55.487273Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T03:57:55.487953Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
+{"timestamp": "2026-06-02T03:57:55.488776Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-02T03:57:55.492654Z", "level": "info", "event": "YAML config loaded"}
+{"provider": "openrouter", "model": "deepseek/deepseek-chat", "timestamp": "2026-06-02T03:57:55.492932Z", "level": "info", "event": "Loading LLM"}
