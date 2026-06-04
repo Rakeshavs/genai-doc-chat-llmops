@@ -98,8 +98,16 @@ async def upload(files: List[UploadFile] = File(...)) -> UploadResponse:
         # Wrap FastAPI files to preserve filename/ext and provide a read buffer
         wrapped_files = [FastAPIFileAdapter(f) for f in files]
 
+
+        # Create ingestor (may trigger heavy initialization)
         ingestor = ChatIngestor(use_session_dirs=True)
         session_id = ingestor.session_id
+
+        # Development shortcut: skip expensive indexing when DEV_MODE=1
+        if os.getenv("DEV_MODE", "0") == "1":
+            # Initialize empty session and return quickly so frontend can work
+            SESSIONS[session_id] = []
+            return UploadResponse(session_id=session_id, indexed=False, message="DEV_MODE: index skipped")
 
         # Save, load, split, embed, and write FAISS index with MMR
         ingestor.built_retriver(
@@ -129,6 +137,16 @@ async def chat(req: ChatRequest) -> ChatResponse:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
 
     try:
+        # Dev-mode quick response — avoid loading retriever/LLM
+        if os.getenv("DEV_MODE", "0") == "1":
+            answer = f"DEV_MODE: simulated reply to '{message}'"
+            # update history
+            simple = SESSIONS.get(session_id, [])
+            simple.append({"role": "user", "content": message})
+            simple.append({"role": "assistant", "content": answer})
+            SESSIONS[session_id] = simple
+            return ChatResponse(answer=answer)
+
         # Build RAG and load retriever from persisted FAISS with MMR
         rag = ConversationalRAG(session_id=session_id)
         index_path = f"faiss_index/{session_id}"

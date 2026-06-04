@@ -1,21 +1,37 @@
+# Python artifacts
 __pycache__/
-.pytest_cache/
-.venv/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
 .env
-.env.*
-.git/
+
+# Editor/project files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker build artifacts
+Dockerfile*
+
+# Runtime data and caches
 data/
 faiss_index/
 logs/
-*.pyc
-*.pyo
-*.pyd
+*.db
 *.sqlite3
+
+# Notebooks and large local files
 notebook/
 *.ipynb
-*.ipynb_checkpoints
-venv/
-__MACOSX/
-dist/
-build/
-*.egg-info/
+*.ipynb_checkpoints/
+
+# Git metadata
+.git/
+
+# OS files
+.DS_Store
+Thumbs.db
