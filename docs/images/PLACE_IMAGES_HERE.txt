@@ -1,0 +1,6 @@
+Please save your screenshots in this folder with the following filenames:
+
+1. `ecs_tasks_running.png` - The Service overview page showing Task definition, deployment status "Success", and Tasks (1 Desired) with "1 Running".
+2. `iam_roles.png` - The IAM Roles page showing ecsTaskExecutionRole created and its attached policies.
+3. `metrics_monitoring.png` - The CloudWatch CPU and Memory utilization graph metrics page.
+4. `container_details.png` - The ECS Task Container details tab showing Status = "Running" and public/private IP addresses.
