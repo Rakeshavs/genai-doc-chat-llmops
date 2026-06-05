@@ -1,4 +1,4 @@
-# 🤖 MultiDocChat: Production-Grade Multi-Document RAG Portal with Cloud-Native LLMOps
+# MultiDocChat: Production-Grade Multi-Document RAG Portal with Cloud-Native LLMOps
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![LangChain](https://img.shields.io/badge/LangChain-1C3C3A?style=for-the-badge&logo=chainlink&logoColor=white)](https://python.langchain.com/)
@@ -6,35 +6,30 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/features/actions)
 [![LangSmith](https://img.shields.io/badge/LangSmith-orange?style=for-the-badge&logo=langchain&logoColor=white)](https://www.langchain.com/langsmith)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 An enterprise-grade, serverless Multi-Document Conversational Retrieval-Augmented Generation (RAG) portal. The project features a decoupled multi-LLM configuration engine, local FAISS vector indexing with Maximal Marginal Relevance (MMR) search, and a beautiful interactive web interface. Deployed securely to AWS ECS Fargate with an automated GitHub Actions CI/CD pipeline and full LangSmith LLMOps observability.
 
 ---
 
-## 📋 Table of Contents
-1. [Project Overview](#-project-overview)
-2. [Key Features](#-key-features)
-3. [Architecture & Workflow](#-architecture--workflow)
-4. [Technology Stack](#-technology-stack)
-5. [Installation Guide](#-installation-guide)
-6. [Usage & API Endpoints](#-usage--api-endpoints)
-7. [Folder Structure](#-folder-structure)
-8. [AWS Services & Infrastructure](#-aws-services--infrastructure)
-9. [Model Architecture & Search Strategy](#-model-architecture--search-strategy)
-10. [Performance Metrics](#-performance-metrics)
-11. [Screenshots & Visual Evidence](#-screenshots--visual-evidence)
-12. [Challenges & Solutions](#-challenges--solutions)
-13. [Future Enhancements](#-future-enhancements)
-14. [Business Impact](#-business-impact)
-15. [Resume-Worthy Achievements](#-resume-worthy-achievements)
-16. [Contributors](#-contributors)
-17. [License](#-license)
-18. [Contact](#-contact)
+## Table of Contents
+1. [Project Overview](#project-overview)
+2. [Key Features](#key-features)
+3. [Architecture & Workflow](#architecture--workflow)
+4. [Technology Stack](#technology-stack)
+5. [Installation Guide](#installation-guide)
+6. [Usage & API Endpoints](#usage--api-endpoints)
+7. [Folder Structure](#folder-structure)
+8. [AWS Services & Infrastructure](#aws-services--infrastructure)
+9. [Model Architecture & Search Strategy](#model-architecture--search-strategy)
+10. [Performance Metrics](#performance-metrics)
+11. [Screenshots & Visual Evidence](#screenshots--visual-evidence)
+12. [Challenges & Solutions](#challenges--solutions)
+13. [Future Enhancements](#future-enhancements)
+14. [Business Impact](#business-impact)
 
 ---
 
-## 🔍 Project Overview
+## Project Overview
 
 ### The Problem
 Standard enterprise document analysis workflows suffer from data silos, high manual search latency, and context dilution. When engineers or business analysts attempt to query large volumes of technical manuals, PDFs, and Word documents:
@@ -50,7 +45,7 @@ Standard enterprise document analysis workflows suffer from data silos, high man
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 * **Multi-Format Ingestion**: Support for PDF, DOCX, and TXT parsing with asynchronous execution.
 * **Maximal Marginal Relevance (MMR)**: Balance document relevance with context diversity, reducing token waste by up to 35%.
@@ -61,7 +56,7 @@ Standard enterprise document analysis workflows suffer from data silos, high man
 
 ---
 
-## 🏗️ Architecture & Workflow
+## Architecture & Workflow
 
 ```mermaid
 graph TD
@@ -90,7 +85,7 @@ graph TD
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Component | Description |
 | :--- | :--- | :--- |
@@ -105,7 +100,7 @@ graph TD
 
 ---
 
-## 🚀 Installation Guide
+## Installation Guide
 
 ### Prerequisites
 * Python 3.13
@@ -162,7 +157,7 @@ graph TD
 
 ---
 
-## 🖥️ Usage & API Endpoints
+## Usage & API Endpoints
 
 ### Key API Endpoints
 * **`GET /health`**: Returns system availability status `{"status": "ok"}`.
@@ -193,7 +188,7 @@ graph TD
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```text
 ├── .github/
@@ -238,7 +233,7 @@ graph TD
 
 ---
 
-## ☁️ AWS Services & Infrastructure
+## AWS Services & Infrastructure
 
 The production environment is deployed using serverless **AWS ECS Fargate** inside a secure network infrastructure:
 
@@ -259,7 +254,7 @@ The production environment is deployed using serverless **AWS ECS Fargate** insi
 
 ---
 
-## 🧠 Model Architecture & Search Strategy
+## Model Architecture & Search Strategy
 
 ### Decentralized LLM Loader
 To keep the application cloud-independent and cost-effective, model initialization is decoupled in `model_loader.py`. Model provider classes are instantiated dynamically at runtime depending on the configuration file and active environment variables.
@@ -275,7 +270,7 @@ $$\text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{Sim}_
 
 ---
 
-## 📊 Performance Metrics
+## Performance Metrics
 
 * **Index Creation Latency**: $<1.2$ seconds to segment, embed, and index a 100-page document.
 * **Retrieval Query Latency**: $<45$ milliseconds for FAISS MMR lookup.
@@ -284,100 +279,69 @@ $$\text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{Sim}_
 
 ---
 
-## 📸 Screenshots & Visual Evidence
+## Screenshots & Visual Evidence
 
-Here is the operational evidence of MultiDocChat's production deployment, CI/CD pipeline, and Cloud Infrastructure setup.
+Below is the verified workflow and deployment screenshots of MultiDocChat:
 
-### 1. Application Homepage & Document Upload Flow
-<details>
-<summary><b>📷 View Web UI & Indexing Interface</b></summary>
+### 1. Application Interface & Verification
+* **MultiDocChat Homepage**: 
+  ![MultiDocChat Homepage](docs/images/rag_portal_homepage.png)
+* **File Upload Dialog**: 
+  ![File Upload Dialog](docs/images/file_upload_dialog.png)
+* **Document Indexing Progress**: 
+  ![Document Indexing Progress](docs/images/document_indexing_progress.png)
 
-![MultiDocChat Homepage](docs/images/rag_portal_homepage.png)
-*Figure 1: Production MultiDocChat frontend dashboard with active chat history panel.*
+### 2. AWS Cloud Infrastructure
+* **ECR Repository Created**: 
+  ![AWS ECR Repository](docs/images/ecr_repository_created.png)
+* **ECS Cluster Setup**: 
+  ![AWS ECS Empty Services](docs/images/ecs_cluster_empty_services.png)
+* **ECS Service Zero Tasks**: 
+  ![AWS ECS Zero Tasks Warning](docs/images/ecs_service_zero_tasks.png)
+* **ECS Container Running Status**: 
+  ![AWS ECS Container Running Status](docs/images/ecs_container_running_status.png)
+* **ECS Cluster Active Service**: 
+  ![AWS ECS Cluster Active Service](docs/images/ecs_cluster_active_service.png)
 
-![File Upload Dialog](docs/images/file_upload_dialog.png)
-*Figure 2: Custom multi-file upload dialog for concurrent ingestion.*
-
-![Document Indexing Progress](docs/images/document_indexing_progress.png)
-*Figure 3: Interactive real-time document extraction and FAISS indexing state.*
-</details>
-
----
-
-### 2. AWS Cloud Infrastructure Deployment
-<details>
-<summary><b>☁️ View ECS & IAM Configurations</b></summary>
-
-![AWS ECR Repository](docs/images/ecr_repository_created.png)
-*Figure 4: Amazon ECR repository housing production-ready MultiDocChat Docker images.*
-
-![AWS ECS Empty Services](docs/images/ecs_cluster_empty_services.png)
-*Figure 5: Initial setup of the AWS ECS cluster prior to service instantiation.*
-
-![AWS ECS Zero Tasks Warning](docs/images/ecs_service_zero_tasks.png)
-*Figure 6: Diagnostic screen demonstrating active task orchestration debugging.*
-
-![AWS ECS Container Running Status](docs/images/ecs_container_running_status.png)
-*Figure 7: Final verified running container task on AWS ECS Fargate with Public IP bindings.*
-
-![AWS ECS Cluster Active Service](docs/images/ecs_cluster_active_service.png)
-*Figure 8: Fully healthy, active ECS Fargate service running behind configured task rules.*
-</details>
-
----
-
-### 3. AWS Security & Log Orchestration Policies
-<details>
-<summary><b>🔒 View Custom IAM & Execution Rules</b></summary>
-
-![AWS IAM Execution Role Policy](docs/images/iam_create_execution_role_policy.png)
-*Figure 9: Establishing the execution roles policy allowing log creation and repository pull rights.*
-
-![AWS IAM Secrets Policy](docs/images/iam_execution_role_secrets_policy.png)
-*Figure 10: Secure Secrets Manager Decryption policy limiting task access exclusively to the target workspace ARN.*
-
-![AWS ECS Task Execution Role Attached](docs/images/ecs_task_execution_role_attached.png)
-*Figure 11: Production IAM Execution Role attached to the Fargate container.*
-</details>
-
----
+### 3. AWS Security & Log Policies
+* **ECS Service Assume Role Error**: 
+  ![ECS Service Assume Role Error](docs/images/ecs_service_assume_role_error.png)
+* **IAM Roles Missing Execution Role**: 
+  ![IAM Roles Missing Execution Role](docs/images/iam_roles_missing_execution_role.png)
+* **IAM Create Execution Role Policy**: 
+  ![AWS IAM Execution Role Policy](docs/images/iam_create_execution_role_policy.png)
+* **IAM Execution Role Secrets Policy**: 
+  ![AWS IAM Secrets Policy](docs/images/iam_execution_role_secrets_policy.png)
+* **ECS Task Stopped Secrets Denied Error**: 
+  ![ECS Task Stopped Secrets Denied Error](docs/images/ecs_task_stopped_secrets_denied_error.png)
+* **ECS Task Execution Role Attached**: 
+  ![AWS ECS Task Execution Role Attached](docs/images/ecs_task_execution_role_attached.png)
+* **ECS Task Running Configuration IP**: 
+  ![ECS Task Running Configuration IP](docs/images/ecs_task_running_config_ip.png)
 
 ### 4. CloudWatch Metrics & Monitoring
-<details>
-<summary><b>📈 View CPU & Memory Utilization</b></summary>
+* **ECS Service Metrics Monitoring**: 
+  ![ECS Service Metrics Monitoring](docs/images/ecs_service_metrics_monitoring.png)
 
-![ECS Service Metrics Monitoring](docs/images/ecs_service_metrics_monitoring.png)
-*Figure 12: CloudWatch Metrics demonstrating healthy CPU and Memory scaling behavior under load.*
-</details>
-
----
-
-### 5. Automated CI/CD Pipeline Runs
-<details>
-<summary><b>🔄 View GitHub Actions Workflows</b></summary>
-
-![GitHub Commit History](docs/images/github_commit_history.png)
-*Figure 13: Clean, production-ready Git commit history triggering automated workflows.*
-
-![GitHub Actions Secrets Setup](docs/images/github_actions_secrets.png)
-*Figure 14: Encrypted repository secrets mapping AWS Credentials for deployment authentication.*
-
-![GitHub Actions Runs History](docs/images/github_actions_runs_history.png)
-*Figure 15: Executed pipeline history demonstrating continuous delivery loops.*
-
-![GitHub Actions Build In Progress](docs/images/github_actions_build_in_progress.png)
-*Figure 16: Multi-stage Docker build pipeline compiling dependencies in runner.*
-
-![GitHub Actions Deploy In Progress](docs/images/github_actions_deploy_in_progress.png)
-*Figure 17: ECS task definition registration and deployment task orchestration.*
-
-![GitHub Actions Deploy Success](docs/images/github_actions_deploy_success.png)
-*Figure 18: Successful deployment execution output demonstrating 100% test passing and task release.*
-</details>
+### 5. Automated CI/CD Workflows (GitHub Actions)
+* **GitHub Commit History**: 
+  ![GitHub Commit History](docs/images/github_commit_history.png)
+* **GitHub Actions Secrets**: 
+  ![GitHub Actions Secrets Setup](docs/images/github_actions_secrets.png)
+* **GitHub Actions Runs History**: 
+  ![GitHub Actions Runs History](docs/images/github_actions_runs_history.png)
+* **GitHub Actions Build In Progress**: 
+  ![GitHub Actions Build In Progress](docs/images/github_actions_build_in_progress.png)
+* **GitHub Actions Deploy In Progress**: 
+  ![GitHub Actions Deploy In Progress](docs/images/github_actions_deploy_in_progress.png)
+* **GitHub Actions Deploy Hanging**: 
+  ![GitHub Actions Deploy Hanging](docs/images/github_actions_deploy_hanging.png)
+* **GitHub Actions Deploy Success**: 
+  ![GitHub Actions Deploy Success](docs/images/github_actions_deploy_success.png)
 
 ---
 
-## 🛠️ Challenges & Solutions
+## Challenges & Solutions
 
 | Challenge | Impact | Root Cause | Solution |
 | :--- | :--- | :--- | :--- |
@@ -389,7 +353,7 @@ Here is the operational evidence of MultiDocChat's production deployment, CI/CD 
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 * **Hybrid Lexical/Vector Search**: Implement BM25 lexical keyword matching alongside dense vector retrieval to increase retrieval accuracy on rare domain terminology.
 * **Dynamic Chunk Sizing**: Add automated chunk evaluation based on document formatting structure (headings, lists) to maintain semantic context boundaries.
@@ -397,36 +361,8 @@ Here is the operational evidence of MultiDocChat's production deployment, CI/CD 
 
 ---
 
-## 📈 Business Impact
+## Business Impact
 
 * **Infrastructure Cost Savings**: Utilizing serverless ECS Fargate tasks combined with local memory-mapped FAISS index storage reduces database hosting fees by $120+/month compared to managed vector database instances.
 * **Deployment Velocity**: Automated CI/CD workflows cut feature deployment time from hours to under 5 minutes with zero downtime.
 * **Data Security Compliance**: Deploying inside a private VPC with Secrets Manager integration ensures that sensitive internal manuals and LLM API keys are encrypted at rest and in transit.
-
----
-
-## 🏆 Resume-Worthy Achievements
-
-* **Architected Decoupled Model Engine**: Built a plug-and-play LLM registry hot-swapping between Gemini, DeepSeek (OpenRouter), and Groq, reducing developer maintenance by 40%.
-* **Optimized Container Workloads**: Reduced production Docker image size by **55%** ($945\text{ MB}$) using optimized multi-stage Python runtimes, speeding up cloud deployment times.
-* **Integrated Secure Secrets Retrieval**: Integrated Fargate task initialization with AWS Secrets Manager, eliminating hardcoded environment credentials and ensuring compliance with enterprise security standards.
-* **Implemented Observability**: Enabled LangSmith tracing on production chains, improving query debugging speed and tracking API billing metrics.
-
----
-
-## 👥 Contributors
-
-* **Rakesh** - Lead Architect & DevOps Engineer - [GitHub Profile](https://github.com/Rakeshavs)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## ✉️ Contact
-
-* **GitHub Repository**: [genai-doc-chat-llmops](https://github.com/Rakeshavs/genai-doc-chat-llmops)
-* **Creator**: Rakesh
