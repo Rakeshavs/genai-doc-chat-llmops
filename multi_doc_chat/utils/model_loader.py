@@ -7,6 +7,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGener
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.embeddings import SentenceTransformerEmbeddings
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 
 from multi_doc_chat.exception.custom_exception import DocumentPortalException
 from multi_doc_chat.logger import GLOBAL_LOGGER as log
@@ -34,6 +35,7 @@ class ApiKeyManager:
             "OPENAI_API_KEY",
             "OPENROUTER_API_KEY",
             "YOUR_OPENROUTER_API_KEY",
+            "HUGGINGFACEHUB_API_TOKEN",
         ])
 
     def _load_individual_keys(self, keys):
@@ -105,6 +107,25 @@ class ModelLoader:
             return SentenceTransformerEmbeddings(
                 model_name=model_name,
             )
+
+        if provider == "huggingface":
+            try:
+                hf_token = self.api_key_mgr.get("HUGGINGFACEHUB_API_TOKEN")
+                embeddings = HuggingFaceEndpointEmbeddings(
+                    model=model_name,
+                    huggingfacehub_api_token=hf_token,
+                )
+                # Smoke-test the API to confirm it's reachable
+                embeddings.embed_query("test")
+                log.info("HuggingFace Inference API embeddings loaded", model=model_name)
+                return embeddings
+            except Exception as e:
+                log.warning(
+                    "HuggingFace API unavailable, falling back to local embeddings",
+                    error=str(e),
+                    model=model_name,
+                )
+                return SentenceTransformerEmbeddings(model_name=model_name)
 
         raise DocumentPortalException(
             f"Unsupported embedding provider: {provider}", sys
