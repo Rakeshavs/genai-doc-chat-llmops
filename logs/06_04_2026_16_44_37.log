@@ -1,24 +1,25 @@
-{"timestamp": "2026-06-02T04:49:21.179671Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
-{"timestamp": "2026-06-02T04:49:21.180432Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:49:21.181001Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:49:21.181315Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:49:21.181621Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:49:21.182082Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
-{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-02T04:49:21.188079Z", "level": "info", "event": "YAML config loaded"}
-{"session_id": "session_20260602_101921_28fbb3fb", "temp_dir": "data\\session_20260602_101921_28fbb3fb", "faiss_dir": "faiss_index\\session_20260602_101921_28fbb3fb", "sessionized": true, "timestamp": "2026-06-02T04:49:21.190661Z", "level": "info", "event": "ChatIngestor initialized"}
-{"uploaded": "C:\\Users\\medha\\Downloads\\end to end RAG sy\\data\\Attention Is All You Need - 2017 (1706.03762).pdf", "saved_as": "data\\session_20260602_101921_28fbb3fb\\32af1537.pdf", "timestamp": "2026-06-02T04:49:21.197013Z", "level": "info", "event": "File saved for ingestion"}
-{"chunks": 251, "chunk_size": 200, "overlap": 20, "timestamp": "2026-06-02T04:49:23.536867Z", "level": "info", "event": "Documents split"}
-{"provider": "local", "model": "all-MiniLM-L6-v2", "timestamp": "2026-06-02T04:49:23.538013Z", "level": "info", "event": "Loading embeddings"}
+{"timestamp": "2026-06-04T11:18:08.098278Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
+{"timestamp": "2026-06-04T11:18:08.100320Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:18:08.100890Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:18:08.101709Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:18:08.102087Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:18:08.103580Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-04T11:18:08.111978Z", "level": "info", "event": "YAML config loaded"}
+{"session_id": "session_20260604_164808_536afce6", "temp_dir": "data\\session_20260604_164808_536afce6", "faiss_dir": "faiss_index\\session_20260604_164808_536afce6", "sessionized": true, "timestamp": "2026-06-04T11:18:08.116873Z", "level": "info", "event": "ChatIngestor initialized"}
+{"uploaded": "Systems  Reliability Resume.pdf", "saved_as": "data\\session_20260604_164808_536afce6\\7f9218a1.pdf", "timestamp": "2026-06-04T11:18:08.124811Z", "level": "info", "event": "File saved for ingestion"}
+{"count": 2, "timestamp": "2026-06-04T11:18:09.648331Z", "level": "info", "event": "Documents loaded"}
+{"chunks": 7, "chunk_size": 1000, "overlap": 200, "timestamp": "2026-06-04T11:18:09.653216Z", "level": "info", "event": "Documents split"}
+{"provider": "local", "model": "all-MiniLM-L6-v2", "timestamp": "2026-06-04T11:18:09.655765Z", "level": "info", "event": "Loading embeddings"}
 No device provided, using cpu
 HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/modules.json "HTTP/1.1 200 OK"
 HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/config_sentence_transformers.json "HTTP/1.1 200 OK"
 Loading SentenceTransformer model from sentence-transformers/all-MiniLM-L6-v2.
 HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/config_sentence_transformers.json "HTTP/1.1 200 OK"
 HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md "HTTP/1.1 200 OK"
 HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/modules.json "HTTP/1.1 200 OK"
@@ -49,26 +50,26 @@ Could not load library with AVX2 support due to:
 ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
 Loading faiss.
 Successfully loaded faiss.
-{"added": 1, "index": "faiss_index\\session_20260602_101921_28fbb3fb", "timestamp": "2026-06-02T04:50:07.124925Z", "level": "info", "event": "FAISS index updated"}
-{"k": 5, "fetch_k": 20, "lambda_mult": 0.5, "timestamp": "2026-06-02T04:50:07.125747Z", "level": "info", "event": "Using MMR search"}
-{"timestamp": "2026-06-02T04:50:07.131857Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
-{"timestamp": "2026-06-02T04:50:07.132584Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:07.133279Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:07.133898Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:07.134484Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:07.135055Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
-{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-02T04:50:07.141546Z", "level": "info", "event": "YAML config loaded"}
-{"provider": "openrouter", "model": "deepseek/deepseek-chat", "timestamp": "2026-06-02T04:50:07.142125Z", "level": "info", "event": "Loading LLM"}
-{"session_id": "session_20260602_101921_28fbb3fb", "timestamp": "2026-06-02T04:50:08.117841Z", "level": "info", "event": "LLM loaded successfully"}
-{"session_id": "session_20260602_101921_28fbb3fb", "timestamp": "2026-06-02T04:50:08.118616Z", "level": "info", "event": "ConversationalRAG initialized"}
-{"timestamp": "2026-06-02T04:50:08.121650Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
-{"timestamp": "2026-06-02T04:50:08.122199Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:08.122718Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:08.123071Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:08.123405Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
-{"timestamp": "2026-06-02T04:50:08.123928Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
-{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-02T04:50:08.129846Z", "level": "info", "event": "YAML config loaded"}
-{"provider": "local", "model": "all-MiniLM-L6-v2", "timestamp": "2026-06-02T04:50:08.130341Z", "level": "info", "event": "Loading embeddings"}
+{"added": 1, "index": "faiss_index\\session_20260604_164808_536afce6", "timestamp": "2026-06-04T11:19:06.111944Z", "level": "info", "event": "FAISS index updated"}
+{"k": 5, "fetch_k": 20, "lambda_mult": 0.5, "timestamp": "2026-06-04T11:19:06.112502Z", "level": "info", "event": "Using MMR search"}
+{"timestamp": "2026-06-04T11:19:41.756297Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
+{"timestamp": "2026-06-04T11:19:41.757127Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:41.758128Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:41.758513Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:41.759057Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:41.760034Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-04T11:19:41.772558Z", "level": "info", "event": "YAML config loaded"}
+{"provider": "openrouter", "model": "deepseek/deepseek-chat", "timestamp": "2026-06-04T11:19:41.773964Z", "level": "info", "event": "Loading LLM"}
+{"session_id": "session_20260604_164808_536afce6", "timestamp": "2026-06-04T11:19:43.375254Z", "level": "info", "event": "LLM loaded successfully"}
+{"session_id": "session_20260604_164808_536afce6", "timestamp": "2026-06-04T11:19:43.376596Z", "level": "info", "event": "ConversationalRAG initialized"}
+{"timestamp": "2026-06-04T11:19:43.386897Z", "level": "info", "event": "Running in LOCAL mode: .env loaded"}
+{"timestamp": "2026-06-04T11:19:43.388041Z", "level": "info", "event": "Loaded GROQ_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:43.389277Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:43.389900Z", "level": "info", "event": "Loaded OPENAI_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:43.390465Z", "level": "info", "event": "Loaded OPENROUTER_API_KEY from individual env var"}
+{"timestamp": "2026-06-04T11:19:43.390845Z", "level": "info", "event": "Loaded YOUR_OPENROUTER_API_KEY from individual env var"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2026-06-04T11:19:43.403611Z", "level": "info", "event": "YAML config loaded"}
+{"provider": "local", "model": "all-MiniLM-L6-v2", "timestamp": "2026-06-04T11:19:43.404474Z", "level": "info", "event": "Loading embeddings"}
 No device provided, using cpu
 HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/modules.json "HTTP/1.1 200 OK"
@@ -103,5 +104,8 @@ HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-Mi
 HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
 HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
-{"session_id": "session_20260602_101921_28fbb3fb", "timestamp": "2026-06-02T04:50:14.771730Z", "level": "info", "event": "LCEL graph built successfully"}
-{"index_path": "faiss_index\\session_20260602_101921_28fbb3fb", "index_name": "index", "search_type": "mmr", "k": 5, "fetch_k": 20, "lambda_mult": 0.5, "session_id": "session_20260602_101921_28fbb3fb", "timestamp": "2026-06-02T04:50:14.772283Z", "level": "info", "event": "FAISS retriever loaded successfully"}
+{"session_id": "session_20260604_164808_536afce6", "timestamp": "2026-06-04T11:19:51.626760Z", "level": "info", "event": "LCEL graph built successfully"}
+{"index_path": "faiss_index/session_20260604_164808_536afce6", "index_name": "index", "search_type": "mmr", "k": 5, "fetch_k": 20, "lambda_mult": 0.5, "session_id": "session_20260604_164808_536afce6", "timestamp": "2026-06-04T11:19:51.627294Z", "level": "info", "event": "FAISS retriever loaded successfully"}
+HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+{"session_id": "session_20260604_164808_536afce6", "user_input": "tell me about the resume", "answer_preview": "The resume outlines technical skills in programming (Python, C, Java, Go), systems (Linux, Docker, Kubernetes), and data systems (PostgreSQL, Redis). ", "timestamp": "2026-06-04T11:19:58.044476Z", "level": "info", "event": "Chain invoked successfully"}

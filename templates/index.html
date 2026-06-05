@@ -3,145 +3,579 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MultiDocChat</title>
+  <title>MultiDocChat — Intelligent Document Assistant</title>
   <link rel="stylesheet" href="/static/styles.css" />
-  <style>
-    /* Minimal inline tweaks; most styles live in styles.css */
-  </style>
+  <meta name="color-scheme" content="dark" />
+  <!-- CDN Links for premium libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1><i data-lucide="brain-circuit"></i> MultiDocChat</h1>
+    <div id="session-badge" class="badge" style="display: none;">
+      <span class="dot"></span> Active Session
+    </div>
+  </header>
+
+  <main>
+    <!-- View 1: Upload / Landing screen -->
+    <section id="uploader" class="glass-panel">
+      <form id="upload-form">
+        <div style="text-align: center; margin-bottom: 8px;">
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 700; margin-bottom: 6px;">Connect Your Documents</h2>
+          <p style="color: var(--text-secondary); font-size: 14px;">Upload multiple files to start a conversational session with your data</p>
+        </div>
+
+        <div id="dropzone">
+          <i id="dropzone-icon" data-lucide="cloud-upload"></i>
+          <p class="title">Drag & drop files here</p>
+          <p class="sub">Supports PDF, DOCX, and TXT files</p>
+          <p style="color: var(--text-muted); font-size: 11px;">or</p>
+          <label class="btn-choose">
+            <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+            Choose Files
+            <input id="file-input" type="file" name="files" multiple hidden />
+          </label>
+        </div>
+
+        <div id="selected-files-container" style="display: none;">
+          <h4 style="font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">Selected Files</h4>
+          <div id="file-list" class="file-list-container"></div>
+        </div>
+
+        <button id="upload-btn" class="btn-primary" type="submit" disabled>
+          <i data-lucide="database-zap" style="width: 18px; height: 18px;"></i>
+          Upload & Index
+        </button>
+      </form>
+    </section>
+
+    <!-- View 2: Dashboard/Chat screen -->
+    <section id="chat" style="display: none;">
+      <!-- Sidebar containing loaded document lists and options -->
+      <aside class="glass-panel chat-sidebar">
+        <div>
+          <div class="sidebar-header">
+            <i data-lucide="folder-open" style="width: 14px; height: 14px;"></i>
+            Indexed Documents
+          </div>
+          <div id="sidebar-files-list" class="sidebar-files" style="margin-top: 10px;">
+            <!-- Files loaded into session will appear here -->
+          </div>
+        </div>
+
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+          <button id="new-chat-btn" class="btn-secondary">
+            <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i>
+            New Chat Session
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main chat container -->
+      <article class="glass-panel chat-container">
+        <!-- Messages Area -->
+        <div id="messages" class="messages">
+          <!-- Dynamically filled with bubbles -->
+        </div>
+
+        <!-- Composer / Input Area -->
+        <div class="composer-container">
+          <div class="composer">
+            <textarea id="message-input" rows="1" placeholder="Ask a question about your documents..." disabled></textarea>
+            
+            <div id="thinking-indicator" style="display: none; margin-right: 8px; margin-bottom: 8px;">
+              <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+              </div>
+            </div>
+
+            <button id="send-btn" class="btn-send" disabled>
+              <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Indexing Progress Full Screen Overlay -->
+  <div id="indexing-overlay">
+    <div class="spinner-container">
+      <div class="spinner-outer"></div>
+      <div class="spinner-inner"></div>
+    </div>
+    <div style="text-align: center;">
+      <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 600; margin-bottom: 4px;">Indexing Knowledge Base</h3>
+      <p style="color: var(--text-secondary); font-size: 13px;">Analyzing and structuring your files...</p>
+    </div>
+    <div class="indexing-steps">
+      <div id="step-upload" class="step-item active">
+        <div class="step-icon"><i data-lucide="upload"></i></div>
+        <span>Uploading source files</span>
+      </div>
+      <div id="step-extract" class="step-item pending">
+        <div class="step-icon"><i data-lucide="file-text"></i></div>
+        <span>Extracting document text</span>
+      </div>
+      <div id="step-embed" class="step-item pending">
+        <div class="step-icon"><i data-lucide="binary"></i></div>
+        <span>Generating dense embeddings</span>
+      </div>
+      <div id="step-faiss" class="step-item pending">
+        <div class="step-icon"><i data-lucide="box"></i></div>
+        <span>Building FAISS vector index</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications system container -->
+  <div id="toast-container" class="toast-container"></div>
+
   <script>
     const $ = (sel) => document.querySelector(sel);
-    let sessionId = localStorage.getItem('mdc_session_id') || '';
+    const $$ = (sel) => document.querySelectorAll(sel);
 
-    async function uploadFiles(evt) {
-      evt.preventDefault();
-      const input = $('#file-input');
-      const files = input.files;
-      if (!files || files.length === 0) {
-        toast('Please choose at least one file');
+    let sessionId = localStorage.getItem('mdc_session_id') || '';
+    let sessionFiles = JSON.parse(localStorage.getItem('mdc_session_files') || '[]');
+    let chatHistory = JSON.parse(localStorage.getItem('mdc_chat_history') || '[]');
+    let selectedFiles = [];
+
+    // Initialize Marked options
+    marked.setOptions({
+      breaks: true,
+      gfm: true
+    });
+
+    // Toast manager
+    function showToast(message, type = 'info') {
+      const container = $('#toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      let iconName = 'info';
+      if (type === 'success') iconName = 'check-circle';
+      if (type === 'error') iconName = 'alert-triangle';
+
+      toast.innerHTML = `
+        <i class="toast-icon" data-lucide="${iconName}"></i>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.classList.add('removing');
+        toast.addEventListener('transitionend', () => toast.remove());
+      }, 3500);
+    }
+
+    // Convert file size to readable format
+    function formatBytes(bytes, decimals = 2) {
+      if (!+bytes) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    }
+
+    // Get Lucide file icon based on extension
+    function getFileIcon(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      if (ext === 'pdf') return 'file-text';
+      if (ext === 'docx' || ext === 'doc') return 'file-edit';
+      return 'file';
+    }
+
+    // Refresh selected file UI list
+    function updateSelectedFilesUI() {
+      const listEl = $('#file-list');
+      const containerEl = $('#selected-files-container');
+      const uploadBtn = $('#upload-btn');
+      
+      listEl.innerHTML = '';
+      
+      if (selectedFiles.length === 0) {
+        containerEl.style.display = 'none';
+        uploadBtn.disabled = true;
         return;
       }
-      toggleIndexing(true);
+      
+      containerEl.style.display = 'block';
+      uploadBtn.disabled = false;
+
+      selectedFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.innerHTML = `
+          <div class="file-info">
+            <i data-lucide="${getFileIcon(file.name)}"></i>
+            <div>
+              <div class="file-name" title="${file.name}">${file.name}</div>
+              <div class="file-size">${formatBytes(file.size)}</div>
+            </div>
+          </div>
+          <button type="button" class="file-remove" data-index="${index}">
+            <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+          </button>
+        `;
+        listEl.appendChild(item);
+      });
+      
+      lucide.createIcons();
+
+      // Add click listeners to remove buttons
+      $$('.file-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(btn.getAttribute('data-index'));
+          selectedFiles.splice(idx, 1);
+          updateSelectedFilesUI();
+        });
+      });
+    }
+
+    // Sync File Input with selectedFiles array
+    function syncFilesFromInput() {
+      const input = $('#file-input');
+      if (input.files && input.files.length > 0) {
+        for (const file of input.files) {
+          // Prevent duplicates by checking name and size
+          const exists = selectedFiles.some(f => f.name === file.name && f.size === file.size);
+          if (!exists) selectedFiles.push(file);
+        }
+      }
+      updateSelectedFilesUI();
+    }
+
+    // Handle smooth step-by-step progress tracking
+    function updateProgressSteps(stepIndex) {
+      const steps = ['step-upload', 'step-extract', 'step-embed', 'step-faiss'];
+      steps.forEach((stepId, idx) => {
+        const el = $('#' + stepId);
+        if (!el) return;
+        if (idx < stepIndex) {
+          el.className = 'step-item completed';
+          el.querySelector('.step-icon').innerHTML = '<i data-lucide="check"></i>';
+        } else if (idx === stepIndex) {
+          el.className = 'step-item active';
+        } else {
+          el.className = 'step-item pending';
+        }
+      });
+      lucide.createIcons();
+    }
+
+    // Upload & index files
+    async function handleUpload(evt) {
+      evt.preventDefault();
+      if (selectedFiles.length === 0) {
+        showToast('Please select at least one file to upload.', 'error');
+        return;
+      }
+
+      const overlay = $('#indexing-overlay');
+      overlay.style.display = 'flex';
+      updateProgressSteps(0);
+
+      // Setup simulated progress timeline matching typical ingestion
+      let currentStep = 0;
+      const progressInterval = setInterval(() => {
+        if (currentStep < 3) {
+          currentStep++;
+          updateProgressSteps(currentStep);
+        }
+      }, 1000);
+
       try {
         const fd = new FormData();
-        for (const f of files) fd.append('files', f);
-        const res = await fetch('/upload', { method: 'POST', body: fd });
-        if (!res.ok) throw new Error((await res.json()).detail || 'Upload failed');
+        selectedFiles.forEach(f => fd.append('files', f));
+
+        const uploadPromise = fetch('/upload', { method: 'POST', body: fd });
+        
+        // Wait for both the minimum visual steps and the upload request to finish
+        const [res] = await Promise.all([
+          uploadPromise,
+          new Promise(resolve => setTimeout(resolve, 3500)) // ensure steps have run
+        ]);
+
+        clearInterval(progressInterval);
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.detail || 'Upload failed');
+        }
+
         const data = await res.json();
+        
+        // Success
         sessionId = data.session_id;
+        sessionFiles = selectedFiles.map(f => f.name);
+        chatHistory = []; // Reset chat history for new session
+
         localStorage.setItem('mdc_session_id', sessionId);
-        $('#chat').style.display = 'block';
-        toast('Indexing complete. You can chat now.');
+        localStorage.setItem('mdc_session_files', JSON.stringify(sessionFiles));
+        localStorage.setItem('mdc_chat_history', JSON.stringify(chatHistory));
+
+        // Immediately clear upload list and prepare chat view
+        selectedFiles = [];
+        updateSelectedFilesUI();
+        switchToChatView();
+        
+        // Complete the progress visually
+        updateProgressSteps(4);
+        showToast('Documents indexed successfully!', 'success');
+        
+        setTimeout(() => {
+          overlay.style.opacity = '0';
+          setTimeout(() => {
+            overlay.style.display = 'none';
+            overlay.style.opacity = '1';
+          }, 300);
+        }, 600);
+
       } catch (e) {
+        clearInterval(progressInterval);
+        overlay.style.display = 'none';
+        showToast(e.message || 'Indexing failed. Please check files and try again.', 'error');
         console.error(e);
-        toast('Indexing failed. Try re-uploading.');
-      } finally {
-        toggleIndexing(false);
       }
+    }
+
+    // Load session view structures
+    function switchToChatView() {
+      $('#uploader').style.display = 'none';
+      $('#chat').style.display = 'grid';
+      $('#session-badge').style.display = 'inline-flex';
+      
+      // Update sidebar files list
+      const sidebarFilesEl = $('#sidebar-files-list');
+      sidebarFilesEl.innerHTML = '';
+      sessionFiles.forEach(filename => {
+        const fileDiv = document.createElement('div');
+        fileDiv.className = 'sidebar-file-item';
+        fileDiv.innerHTML = `
+          <i data-lucide="${getFileIcon(filename)}"></i>
+          <span title="${filename}">${filename}</span>
+        `;
+        sidebarFilesEl.appendChild(fileDiv);
+      });
+      lucide.createIcons();
+
+      // Enable text input controls
+      $('#message-input').disabled = false;
+      $('#send-btn').disabled = false;
+
+      // Render existing chat history
+      renderChatHistory();
+    }
+
+    function switchToUploadView() {
+      $('#chat').style.display = 'none';
+      $('#session-badge').style.display = 'none';
+      $('#uploader').style.display = 'block';
+    }
+
+    function renderChatHistory() {
+      const messagesEl = $('#messages');
+      messagesEl.innerHTML = '';
+
+      if (chatHistory.length === 0) {
+        // Show welcome empty state
+        messagesEl.innerHTML = `
+          <div class="welcome-card">
+            <div class="welcome-icon-box">
+              <i data-lucide="message-square"></i>
+            </div>
+            <h3>Ask Anything</h3>
+            <p>Your document knowledge base is ready. Type a question below to start exploring your documents.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      chatHistory.forEach(msg => {
+        appendBubbleToDOM(msg.role, msg.content);
+      });
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function appendBubbleToDOM(role, content) {
+      const messagesEl = $('#messages');
+      
+      // Remove welcome card if it exists
+      const welcome = $('.welcome-card');
+      if (welcome) welcome.remove();
+
+      const bubbleWrapper = document.createElement('div');
+      bubbleWrapper.className = `bubble-wrapper ${role}`;
+
+      let innerHTML = '';
+      if (role === 'user') {
+        innerHTML = `
+          <div class="bubble user">${escapeHTML(content)}</div>
+        `;
+      } else {
+        // Render Markdown safely
+        const renderedMarkdown = marked.parse(content);
+        innerHTML = `
+          <div class="ai-avatar"><i data-lucide="sparkles" style="width: 14px; height: 14px;"></i></div>
+          <div class="bubble assistant">${renderedMarkdown}</div>
+        `;
+      }
+
+      bubbleWrapper.innerHTML = innerHTML;
+      messagesEl.appendChild(bubbleWrapper);
+      lucide.createIcons();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
     }
 
     async function sendMessage() {
       const input = $('#message-input');
       const text = input.value.trim();
-      if (!sessionId) { toast('Please upload documents first.'); return; }
-      if (!text) { return; }
-      appendMessage('user', text);
+      if (!sessionId) {
+        showToast('No active session. Please upload documents first.', 'error');
+        switchToUploadView();
+        return;
+      }
+      if (!text) return;
+
+      // Add to local history and append bubble
+      chatHistory.push({ role: 'user', content: text });
+      localStorage.setItem('mdc_chat_history', JSON.stringify(chatHistory));
+      appendBubbleToDOM('user', text);
+      
       input.value = '';
+      input.rows = 1;
       toggleThinking(true);
+
       try {
         const res = await fetch('/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ session_id: sessionId, message: text })
         });
-        if (!res.ok) throw new Error((await res.json()).detail || 'Chat failed');
+
+        if (!res.ok) {
+          const errData = await res.json();
+          // Session expired or invalid checks
+          if (res.status === 400 && (errData.detail.includes('session_id') || errData.detail.includes('expired'))) {
+            throw new Error('SESSION_EXPIRED');
+          }
+          throw new Error(errData.detail || 'Chat query failed');
+        }
+
         const data = await res.json();
-        appendMessage('assistant', data.answer);
+        
+        chatHistory.push({ role: 'assistant', content: data.answer });
+        localStorage.setItem('mdc_chat_history', JSON.stringify(chatHistory));
+        appendBubbleToDOM('assistant', data.answer);
+
       } catch (e) {
         console.error(e);
-        toast('Thinking failed. Try again.');
+        if (e.message === 'SESSION_EXPIRED') {
+          showToast('Session has expired. Please re-upload documents.', 'error');
+          clearSession();
+        } else {
+          showToast(e.message || 'Failed to reach AI. Please try again.', 'error');
+        }
       } finally {
         toggleThinking(false);
       }
     }
 
-    function appendMessage(role, text) {
-      const container = $('#messages');
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble ' + (role === 'user' ? 'user' : 'assistant');
-      bubble.textContent = text;
-      container.appendChild(bubble);
-      container.scrollTop = container.scrollHeight;
-    }
-
-    function toggleIndexing(on) {
-      $('#upload-btn').disabled = on;
-      $('#indexing').style.display = on ? 'inline-block' : 'none';
-    }
-
     function toggleThinking(on) {
+      $('#message-input').disabled = on;
       $('#send-btn').disabled = on;
-      $('#thinking').style.display = on ? 'inline-block' : 'none';
+      $('#thinking-indicator').style.display = on ? 'inline-block' : 'none';
+      if (!on) $('#message-input').focus();
     }
 
-    function toast(msg) {
-      const el = $('#toast');
-      el.textContent = msg;
-      el.style.opacity = '1';
-      setTimeout(() => el.style.opacity = '0', 2500);
+    function clearSession() {
+      sessionId = '';
+      sessionFiles = [];
+      chatHistory = [];
+      localStorage.removeItem('mdc_session_id');
+      localStorage.removeItem('mdc_session_files');
+      localStorage.removeItem('mdc_chat_history');
+      switchToUploadView();
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      if (sessionId) {
-        $('#chat').style.display = 'block';
-      }
-      $('#upload-form').addEventListener('submit', uploadFiles);
-      $('#send-btn').addEventListener('click', sendMessage);
-      $('#message-input').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    // Set up Auto-resizing Textarea logic
+    function setupTextareaAutoResize() {
+      const textarea = $('#message-input');
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        const newHeight = this.scrollHeight - 12; // adjust for padding
+        this.style.height = `${Math.min(newHeight, 100)}px`;
       });
-      const drop = $('#dropzone');
-      drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('hover'); });
-      drop.addEventListener('dragleave', () => drop.classList.remove('hover'));
-      drop.addEventListener('drop', (e) => {
+    }
+
+    // Document Ready setup
+    window.addEventListener('DOMContentLoaded', () => {
+      // Create global icons
+      lucide.createIcons();
+
+      // Check for active session on load
+      if (sessionId && sessionFiles.length > 0) {
+        switchToChatView();
+      } else {
+        switchToUploadView();
+      }
+
+      // Add listeners
+      $('#upload-form').addEventListener('submit', handleUpload);
+      $('#send-btn').addEventListener('click', sendMessage);
+      $('#new-chat-btn').addEventListener('click', clearSession);
+      
+      $('#message-input').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      setupTextareaAutoResize();
+
+      // Drag and drop setup
+      const dropzone = $('#dropzone');
+      const fileInput = $('#file-input');
+
+      // Only file input change triggers file sync (label click handles the file picker)
+      fileInput.addEventListener('change', () => {
+        syncFilesFromInput();
+        fileInput.value = ''; // Reset to allow same file selections
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
         e.preventDefault();
-        drop.classList.remove('hover');
-        $('#file-input').files = e.dataTransfer.files;
+        dropzone.classList.add('hover');
+      });
+
+      dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('hover');
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('hover');
+        if (e.dataTransfer.files) {
+          fileInput.files = e.dataTransfer.files;
+          syncFilesFromInput();
+          fileInput.value = ''; // Reset
+        }
       });
     });
   </script>
-  <meta name="color-scheme" content="light dark" />
-</head>
-<body>
-  <header>
-    <h1>MultiDocChat</h1>
-  </header>
-
-  <main>
-    <section id="uploader">
-      <form id="upload-form">
-        <div id="dropzone">
-          <p>Drag and drop files here</p>
-          <p>or</p>
-          <label class="btn">
-            Choose files
-            <input id="file-input" type="file" name="files" multiple hidden />
-          </label>
-        </div>
-        <button id="upload-btn" style="background-color: rgb(0, 94, 225); color: white; border-radius: 6px; cursor: pointer;" type="submit">Upload & Index</button>
-        <span id="indexing" class="hint" style="display:none;">Indexing…</span>
-      </form>
-    </section>
-
-    <section id="chat" style="display:none;">
-      <div id="messages" class="messages"></div>
-      <div class="composer">
-        <textarea id="message-input" rows="2" placeholder="Ask about your documents…"></textarea>
-        <button id="send-btn" style="background-color: rgb(0, 94, 225); color: white; border-radius: 6px; cursor: pointer;">Send</button>
-        <span id="thinking" class="hint" style="display:none;">Thinking…</span>
-      </div>
-    </section>
-  </main>
-
-  <div id="toast" class="toast"></div>
 </body>
 </html>
