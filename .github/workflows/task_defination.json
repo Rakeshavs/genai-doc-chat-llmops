@@ -26,6 +26,10 @@
         {
           "name": "ENV",
           "value": "production"
+        },
+        {
+          "name": "LLM_PROVIDER",
+          "value": "openrouter"
         }
       ],
       "secrets": [
