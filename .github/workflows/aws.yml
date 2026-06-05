@@ -35,7 +35,7 @@ jobs:
     name: Build & Push Docker Image
     needs: [check-status]
     runs-on: ubuntu-latest
-    if: ${{ secrets.AWS_ACCESS_KEY_ID != '' && secrets.AWS_SECRET_ACCESS_KEY != '' }}
+    if: ${{ vars.AWS_DEPLOY_ENABLED == 'true' }}
     outputs:
       image: ${{ steps.build-image.outputs.image }}
     steps:
@@ -74,7 +74,7 @@ jobs:
     name: Deploy to ECS Fargate
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: ${{ secrets.AWS_ACCESS_KEY_ID != '' && secrets.AWS_SECRET_ACCESS_KEY != '' }}
+    if: ${{ vars.AWS_DEPLOY_ENABLED == 'true' }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
