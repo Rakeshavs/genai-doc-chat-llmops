@@ -1,4 +1,0 @@
-{"session_id": "s1", "timestamp": "2026-06-03T15:17:42.417483Z", "level": "info", "event": "LLM loaded successfully"}
-{"session_id": "s1", "timestamp": "2026-06-03T15:17:42.418601Z", "level": "info", "event": "ConversationalRAG initialized"}
-{"error": "Error in [<unknown>] at line [-1] | Message: RAG chain not initialized. Call load_retriever_from_faiss() before invoke().", "timestamp": "2026-06-03T15:17:42.419176Z", "level": "error", "event": "Failed to invoke ConversationalRAG"}
-{"error": "FAISS index directory not found: faiss_index/does_not_exist", "timestamp": "2026-06-03T15:17:42.421319Z", "level": "error", "event": "Failed to load retriever from FAISS"}

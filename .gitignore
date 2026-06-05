@@ -9,3 +9,8 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+# Runtime artifacts — uploaded files, sessions, indexes, logs
+data/
+faiss_index/
+logs/
