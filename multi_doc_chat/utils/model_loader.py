@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_huggingface import HuggingFaceEndpointEmbeddings
 
 from multi_doc_chat.exception.custom_exception import DocumentPortalException
@@ -103,11 +102,6 @@ class ModelLoader:
                 base_url=base_url,
             )
 
-        if provider == "local":
-            return SentenceTransformerEmbeddings(
-                model_name=model_name,
-            )
-
         if provider == "huggingface":
             try:
                 hf_token = self.api_key_mgr.get("HUGGINGFACEHUB_API_TOKEN")
@@ -120,12 +114,8 @@ class ModelLoader:
                 log.info("HuggingFace Inference API embeddings loaded", model=model_name)
                 return embeddings
             except Exception as e:
-                log.warning(
-                    "HuggingFace API unavailable, falling back to local embeddings",
-                    error=str(e),
-                    model=model_name,
-                )
-                return SentenceTransformerEmbeddings(model_name=model_name)
+                log.error("HuggingFace Inference API failed to load", error=str(e), model=model_name)
+                raise DocumentPortalException(f"HuggingFace Inference API failed: {e}", sys)
 
         raise DocumentPortalException(
             f"Unsupported embedding provider: {provider}", sys
